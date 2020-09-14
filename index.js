@@ -1,3 +1,4 @@
+//es5
 function IntBuilder(num) {
   this.num = num;
 }
@@ -21,27 +22,45 @@ IntBuilder.prototype.plus = function (...args) {
   this.num = this.num + sumElemArr;
   return this;
 };
-IntBuilder.prototype.multiply = function (arg) {
+
+function AddOneIntBuilder(name) {
+  IntBuilder.call(this, name);
+}
+AddOneIntBuilder.prototype = Object.create(IntBuilder.prototype);
+AddOneIntBuilder.prototype.constructor = IntBuilder;
+
+AddOneIntBuilder.prototype.multiply = function (arg) {
   this.num = this.num * arg;
   return this;
 };
-IntBuilder.prototype.divide = function (arg) {
+AddOneIntBuilder.prototype.divide = function (arg) {
   this.num = this.num / arg;
   return this;
 };
-IntBuilder.prototype.mod = function (arg) {
+let intsBuilderTwo = new AddOneIntBuilder(10);
+console.log(intsBuilderTwo.plus(2, 3, 2).minus(1, 2).multiply(2).divide(4));
+
+function AddTwoIntBuilder(name) {
+  AddOneIntBuilder.call(this, name);
+}
+AddTwoIntBuilder.prototype = Object.create(AddOneIntBuilder.prototype);
+AddTwoIntBuilder.prototype.constructor = AddOneIntBuilder;
+
+AddTwoIntBuilder.prototype.mod = function (arg) {
   this.num = this.num % arg;
   return this;
 };
-IntBuilder.prototype.get = function () {
+AddTwoIntBuilder.prototype.get = function () {
   return this.num;
 };
 
-let intsBuilder = new IntBuilder(10);
+let intsBuilder = new AddTwoIntBuilder(10);
 
 console.log(intsBuilder.plus(2, 3, 2).minus(1, 2).multiply(2).divide(4).mod(3).get());
 console.log(new IntBuilder.random(1, 100));
 
+
+//es6
 class IntString {
   constructor(str) {
     this.str = str;
@@ -58,6 +77,12 @@ class IntString {
     this.str = str.slice(0, -arg);
     return this;
   }
+}
+class IntStringAddOne extends IntString {
+  constructor(str) {
+    super(str);
+    this.str = str;
+  }
   multiply(int) {
     var str = String(this.str);
     this.str = str.repeat(int);
@@ -69,15 +94,24 @@ class IntString {
     this.str = str.slice(0, chars);
     return this;
   }
-  remove(word) {
-    var arrStr = [...this.str],
-      checkOnIndexOf = this.str.indexOf(word),
-      checkOnSubLenght = word.length;
+}
+var intStringTwo = new IntStringAddOne("Hello");
+console.log(
+  intStringTwo.plus(" all", "!").minus(4).multiply(3).divide(4));
 
-    var newArr = arrStr.filter((elem, index, array) => {
-      return array.indexOf(elem) !== checkOnIndexOf;
-    });
-    this.str = newArr.join('');
+class IntStringAddTwo extends IntStringAddOne {
+  constructor(str) {
+    super(str);
+    this.str = str;
+  }
+  remove(word) {
+    var str = this.str;
+    var n = str.search(word);
+    while (str.search(word) > -1) {
+      n = str.search(word);
+      str = str.substring(0, n) + str.substring(n + word.length, str.length);
+    }
+    this.str = str;
     return this;
   }
   sub(from, n) {
@@ -90,6 +124,6 @@ class IntString {
   }
 }
 
-var intString = new IntString("Hello");
+var intString = new IntStringAddTwo("Hello");
 console.log(
   intString.plus(" all", "!").minus(4).multiply(3).divide(4).remove("l").sub(1, 1).get());
