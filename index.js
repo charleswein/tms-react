@@ -1,13 +1,23 @@
 //es5
+class Builder {
+  constructor(num, str) {
+    this.num = num;
+    this.str = str;
+  }
+}
 function IntBuilder(num) {
+  Builder.constructor.call(this);
   this.num = num;
 }
 IntBuilder.random = function (min, max) {
   min = Math.ceil(min);
   max = Math.floor(max);
-  this.num = Math.floor(Math.random() * (max - min + 1)) + min;
-  return this;
+  return Math.floor(Math.random() * (max - min + 1)) + min;
 };
+
+IntBuilder.prototype = Object.create(Builder.prototype);
+IntBuilder.prototype.constructor = Builder.constructor;
+
 IntBuilder.prototype.minus = function (...args) {
   var sumElemArr = [...args].reduce((result, elem) => {
     return (result += elem);
@@ -22,47 +32,34 @@ IntBuilder.prototype.plus = function (...args) {
   this.num = this.num + sumElemArr;
   return this;
 };
-
-function AddOneIntBuilder(name) {
-  IntBuilder.call(this, name);
-}
-AddOneIntBuilder.prototype = Object.create(IntBuilder.prototype);
-AddOneIntBuilder.prototype.constructor = IntBuilder;
-
-AddOneIntBuilder.prototype.multiply = function (arg) {
+IntBuilder.prototype.multiply = function (arg) {
   this.num = this.num * arg;
   return this;
 };
-AddOneIntBuilder.prototype.divide = function (arg) {
+IntBuilder.prototype.divide = function (arg) {
   this.num = this.num / arg;
   return this;
 };
-let intsBuilderTwo = new AddOneIntBuilder(10);
-console.log(intsBuilderTwo.plus(2, 3, 2).minus(1, 2).multiply(2).divide(4));
 
-function AddTwoIntBuilder(name) {
-  AddOneIntBuilder.call(this, name);
-}
-AddTwoIntBuilder.prototype = Object.create(AddOneIntBuilder.prototype);
-AddTwoIntBuilder.prototype.constructor = AddOneIntBuilder;
-
-AddTwoIntBuilder.prototype.mod = function (arg) {
+IntBuilder.prototype.mod = function (arg) {
   this.num = this.num % arg;
   return this;
 };
-AddTwoIntBuilder.prototype.get = function () {
+IntBuilder.prototype.get = function () {
   return this.num;
 };
 
-let intsBuilder = new AddTwoIntBuilder(10);
+let intsBuilder = new IntBuilder(10);
 
-console.log(intsBuilder.plus(2, 3, 2).minus(1, 2).multiply(2).divide(4).mod(3).get());
-console.log(new IntBuilder.random(1, 100));
-
+console.log(
+  intsBuilder.plus(2, 3, 2).minus(1, 2).multiply(2).divide(4).mod(3).get()
+);
+console.log(IntBuilder.random(10, 100));
 
 //es6
-class IntString {
+class IntString extends Builder {
   constructor(str) {
+    super(str);
     this.str = str;
   }
   plus(...args) {
@@ -77,12 +74,6 @@ class IntString {
     this.str = str.slice(0, -arg);
     return this;
   }
-}
-class IntStringAddOne extends IntString {
-  constructor(str) {
-    super(str);
-    this.str = str;
-  }
   multiply(int) {
     var str = String(this.str);
     this.str = str.repeat(int);
@@ -93,16 +84,6 @@ class IntStringAddOne extends IntString {
       str = this.str;
     this.str = str.slice(0, chars);
     return this;
-  }
-}
-var intStringTwo = new IntStringAddOne("Hello");
-console.log(
-  intStringTwo.plus(" all", "!").minus(4).multiply(3).divide(4));
-
-class IntStringAddTwo extends IntStringAddOne {
-  constructor(str) {
-    super(str);
-    this.str = str;
   }
   remove(word) {
     var str = this.str;
@@ -124,6 +105,17 @@ class IntStringAddTwo extends IntStringAddOne {
   }
 }
 
-var intString = new IntStringAddTwo("Hello");
+var intString = new IntString("Hello");
 console.log(
-  intString.plus(" all", "!").minus(4).multiply(3).divide(4).remove("l").sub(1, 1).get());
+  intString
+    .plus(" all", "!")
+    .minus(4)
+    .multiply(3)
+    .divide(4)
+    .remove("l")
+    .sub(1, 1)
+    .get()
+);
+
+var builder = new Builder(10, "Hello");
+console.log(builder);
