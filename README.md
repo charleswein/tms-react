@@ -1,2 +1,2 @@
 # tms-react
-https://charleswein.github.io/tms-react/tree/task-2/
+https://charleswein.github.io/tms-react/task-2/
