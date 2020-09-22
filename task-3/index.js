@@ -72,19 +72,19 @@ class BST {
       }
     }
   }
+  preOrder(node, arr) {
+    let result = arr;
+    if (node.left) {
+      this.preOrder(node.left, result);
+    }
+    result.push(node.value);
+    if (node.right) {
+      this.preOrder(node.right, result);
+    }
+    return result;
+  }
   contains(value) {
-    let result = [];
-    const transverse = (node) => {
-      if (node.left) {
-        transverse(node.left);
-      }
-      result.push(node.value);
-      if (node.right) {
-        transverse(node.right);
-      }
-    };
-    transverse(this.root);
-    if (result.includes(value)) {
+    if (this.preOrder(this.root, []).includes(value)) {
       return true;
     } else {
       return false;
@@ -124,23 +124,11 @@ class BST {
     this.root = removeNode(this.root, key);
     return this;
   }
-
   traverse(order) {
-    let result = [];
-    const transverse = (node) => {
-      if (node.left) {
-        transverse(node.left);
-      }
-      result.push(node.value);
-      if (node.right) {
-        transverse(node.right);
-      }
-    };
-    transverse(this.root);
     if (order) {
-      return result;
+      return this.preOrder(this.root, []);
     } else {
-      return result.reverse();
+      return this.preOrder(this.root, []).reverse();
     }
   }
 }
@@ -164,7 +152,5 @@ console.log(bst.contains("five"));
 console.log(bst.search(42));
 console.log(bst._root());
 console.log(bst.delete(5).delete(42));
-console.log(bst);
 console.log(bst.traverse(true));
 console.log(bst.traverse(false));
-// console.log(bst.bfs());
