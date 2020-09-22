@@ -18,27 +18,27 @@ class BST {
     if (this.root === null) {
       this.root = newNode;
     } else {
-      const searchTree = (node) => {
-        if (index < node.index) {
-          if (!node.left) {
-            node.left = new Node(index, value);
-          } else {
-            searchTree(node.left);
-          }
-        } else if (index > node.index) {
-          if (!node.right) {
-            node.right = new Node(index, value);
-          } else {
-            searchTree(node.right);
-          }
-        }
-      };
-      searchTree(this.root);
+      this.root = this.insertNode(this.root, newNode);
     }
     return this;
   }
-  findMin(index) {
-    var node = this._search(index);
+  insertNode(node, newNode) {
+    if (newNode.index < node.index) {
+      if (!node.left) {
+        node.left = newNode;
+      } else {
+        this.insertNode(node.left, newNode);
+      }
+    } else if (newNode.index > node.index) {
+      if (!node.right) {
+        node.right = newNode;
+      } else {
+        this.insertNode(node.right, newNode);
+      }
+    }
+    return node;
+  }
+  findMin(node) {
     while (node.left) {
       node = node.left;
     }
@@ -58,7 +58,7 @@ class BST {
       }
     }
   }
-  _search(index) {
+  searchNode(index) {
     let currentNode = this.root;
     while (currentNode) {
       if (index === currentNode.index) {
@@ -72,48 +72,52 @@ class BST {
       }
     }
   }
-  contains(index) {
-    let currentNode = this.root;
-    while (currentNode) {
-      if (index === currentNode.index) {
-        return true;
+  contains(value) {
+    let result = [];
+    const transverse = (node) => {
+      if (node.left) {
+        transverse(node.left);
       }
-
-      if (index < currentNode.index) {
-        currentNode = currentNode.left;
-      } else {
-        currentNode = currentNode.right;
+      result.push(node.value);
+      if (node.right) {
+        transverse(node.right);
       }
+    };
+    transverse(this.root);
+    if (result.includes(value)) {
+      return true;
+    } else {
+      return false;
     }
-    return false;
   }
   delete(key) {
     const removeNode = (node, key) => {
-      if (node === null) {
+      let currentNode = node;
+      if (!currentNode) {
         return null;
-      } else if (key < node.index) {
-        node.left = removeNode(node.left, key);
-        return node;
-      } else if (key > node.index) {
-        node.right = removeNode(node.right, key);
-        return node;
+      } else if (key < currentNode.index) {
+        currentNode.left = removeNode(currentNode.left, key);
+        return currentNode;
+      } else if (key > currentNode.index) {
+        currentNode.right = removeNode(currentNode.right, key);
+        return currentNode;
       } else {
-        if (node.left === null && node.right === null) {
-          node = null;
-          return node;
+        if (!currentNode.left && !currentNode.right) {
+          currentNode = null;
+          return currentNode;
         }
-        if (node.left === null) {
-          node = node.right;
-          return node;
-        } else if (node.right === null) {
-          node = node.left;
-          return node;
+        if (!currentNode.left) {
+          currentNode = currentNode.right;
+          return currentNode;
+        } else if (!currentNode.right) {
+          currentNode = currentNode.left;
+          return currentNode;
         } else {
-          let inter = this.findMin(node.right.index);
-          node.index = inter.index;
-          node.value = inter.value;
-          node.right = removeNode(node.right, inter.index);
-          return node;
+          let inter = this.findMin(currentNode.right);
+          currentNode.index = inter.index;
+          currentNode.value = inter.value;
+          currentNode.right = removeNode(currentNode.right, inter.index);
+          return currentNode;
         }
       }
     };
@@ -122,53 +126,22 @@ class BST {
   }
 
   traverse(order) {
+    let result = [];
+    const transverse = (node) => {
+      if (node.left) {
+        transverse(node.left);
+      }
+      result.push(node.value);
+      if (node.right) {
+        transverse(node.right);
+      }
+    };
+    transverse(this.root);
     if (order) {
-      let result = [];
-      const transverse = (node) => {
-        if (node.left) {
-          transverse(node.left);
-        }
-        result.push(node.value);
-        if (node.right) {
-          transverse(node.right);
-        }
-      };
-      transverse(this.root);
       return result;
     } else {
-      let result = [];
-      const transverse = (node) => {
-        if (node.right) {
-          transverse(node.right);
-        }
-        result.push(node.value);
-        if (node.left) {
-          transverse(node.left);
-        }
-      };
-      transverse(this.root);
-      return result;
+      return result.reverse();
     }
-  }
-
-  bfs(start) {
-    let result = [];
-    let queue = [];
-    let currentNode = start ? this.search(start) : this.root;
-
-    queue.push(currentNode);
-    while (queue.length) {
-      let currentNode = queue.shift();
-
-      result.push(currentNode.index);
-      if (currentNode.left) {
-        queue.push(currentNode.left);
-      }
-      if (currentNode.right) {
-        queue.push(currentNode.right);
-      }
-    }
-    return result;
   }
 }
 
@@ -186,10 +159,12 @@ bst
   .insert(7, "seven")
   .insert(11, "eleven")
   .insert(13, "thirteen");
-console.log(bst.contains(12));
+
+console.log(bst.contains("five"));
 console.log(bst.search(42));
 console.log(bst._root());
-bst.delete(10).delete(5);
+console.log(bst.delete(5).delete(42));
 console.log(bst);
 console.log(bst.traverse(true));
 console.log(bst.traverse(false));
+// console.log(bst.bfs());
