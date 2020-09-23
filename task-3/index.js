@@ -44,19 +44,15 @@ class BST {
     }
     return node;
   }
-  search(index) {
-    let currentNode = this.root;
-    while (currentNode) {
-      if (index === currentNode.index) {
-        return currentNode.value;
-      }
-
-      if (index < currentNode.index) {
-        currentNode = currentNode.left;
-      } else {
-        currentNode = currentNode.right;
-      }
+  findMax(node) {
+    while (node.right) {
+      node = node.right;
     }
+    return node;
+  }
+  search(index) {
+    let node = this.searchNode(index);
+    return node.value;
   }
   searchNode(index) {
     let currentNode = this.root;
@@ -84,7 +80,8 @@ class BST {
     return result;
   }
   contains(value) {
-    if (this.preOrder(this.root, []).includes(value)) {
+    let arr = [];
+    if (this.preOrder(this.root, arr).includes(value)) {
       return true;
     } else {
       return false;
@@ -125,14 +122,14 @@ class BST {
     return this;
   }
   traverse(order) {
+    let arr = [];
     if (order) {
-      return this.preOrder(this.root, []);
+      return this.preOrder(this.root, arr);
     } else {
-      return this.preOrder(this.root, []).reverse();
+      return this.preOrder(this.root, arr).reverse();
     }
   }
 }
-
 const bst = new BST();
 
 bst
