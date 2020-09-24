@@ -68,20 +68,31 @@ class BST {
       }
     }
   }
-  preOrder(node, arr) {
+  preOrderIndex(node, arr) {
     let result = arr;
     if (node.left) {
-      this.preOrder(node.left, result);
+      this.preOrderIndex(node.left, result);
+    }
+    result.push(node.index);
+    if (node.right) {
+      this.preOrderIndex(node.right, result);
+    }
+    return result;
+  }
+  preOrderValue(node, arr) {
+    let result = arr;
+    if (node.left) {
+      this.preOrderValue(node.left, result);
     }
     result.push(node.value);
     if (node.right) {
-      this.preOrder(node.right, result);
+      this.preOrderValue(node.right, result);
     }
     return result;
   }
   contains(value) {
     let arr = [];
-    if (this.preOrder(this.root, arr).includes(value)) {
+    if (this.preOrderValue(this.root, arr).includes(value)) {
       return true;
     } else {
       return false;
@@ -110,10 +121,10 @@ class BST {
           currentNode = currentNode.left;
           return currentNode;
         } else {
-          let inter = this.findMin(currentNode.right);
-          currentNode.index = inter.index;
-          currentNode.value = inter.value;
-          currentNode.right = removeNode(currentNode.right, inter.index);
+          let parent = this.findMin(currentNode.right);
+          currentNode.index = parent.index;
+          currentNode.value = parent.value;
+          currentNode.right = removeNode(currentNode.right, parent.index);
           return currentNode;
         }
       }
@@ -124,9 +135,21 @@ class BST {
   traverse(order) {
     let arr = [];
     if (order) {
-      return this.preOrder(this.root, arr);
+      return this.preOrderValue(this.root, arr);
     } else {
-      return this.preOrder(this.root, arr).reverse();
+      return this.preOrderValue(this.root, arr).reverse();
+    }
+  }
+  verify() {
+    let arr = [];
+    let consequence = [...this.preOrderIndex(this.root, arr)];
+    let sorty = [...consequence];
+    sorty = sorty.sort((a, b) => a - b).toString();
+    consequence = consequence.toString();
+    if (consequence === sorty) {
+      return true;
+    } else if (consequence !== sorty) {
+      return false;
     }
   }
 }
@@ -151,3 +174,4 @@ console.log(bst._root());
 console.log(bst.delete(5).delete(42));
 console.log(bst.traverse(true));
 console.log(bst.traverse(false));
+console.log(bst.verify());
