@@ -142,12 +142,12 @@ class BST {
  }
  verify() {
   let arr = [],
-   result;
-  let equal = [...this.preOrderIndex(this.root, arr)];
-  return result = equal.some((elem, i, arr) => {
+   result, equal = [...this.preOrderIndex(this.root, arr)];
+  result = equal.some((elem, i, arr) => {
    let count = arr[i + 1];
    return elem > count;
   });
+  return !result;
  }
 }
 const bst = new BST();
