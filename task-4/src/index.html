@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Weather API</title>
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css"
+    integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.css">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+  <link rel="stylesheet" href="./src/assets/css/style.css">
+  <script src="./src/index.js" type="module" defer></script>
+</head>
+
+<body>
+  <div class="wrapper">
+    <p class="info--right-top">Imharry</p>
+    <p class="info--left-top">Daily ui</p>
+    <div class="container">
+      <form class="form">
+        <div class="form__wrapper">
+          <label for="formExampleInput">Input data</label>
+          <input type="text" class="form-control form-control--city" id="formExampleInput"
+            placeholder="Enter your city...">
+          <input type="text" class="form-control form-control--country" id="formExampleInput"
+            placeholder="Enter your country...">
+          <button class="btn btn-lg" type="submit"><i class="fa fa-paper-plane" aria-hidden="true"></i></button>
+        </div>
+      </form>
+      <div class="main">
+        <header>
+          <div class="header__appearence">
+            <h6 class="heading-primary"></h6>
+            <img class="logo" src="" alt="request_logo">
+            <img class='elips elips--main' src="./src/assets/img/Ellipse.png" alt="elip">
+            <img class='elips elips--left' src="./src/assets/img/EllipseTwo.png" alt="elip">
+            <img class='elips elips--center' src="./src/assets/img/EllipseThree.png" alt="elip">
+            <img class='elips elips--right' src="./src/assets/img/EllipseFour.png" alt="elip">
+          </div>
+        </header>
+        <section>
+          <h6 class="temperature"></h6>
+          <p class="temperature__descr"></p>
+        </section>
+        <section>
+          <div class="container-nav">
+            <!-- flex -->
+            <h6 class="heading-secondary"></h6>
+            <nav class="navigation">
+              <div class="dot dot--active"></div>
+              <div class="dot"></div>
+              <div class="dot"></div>
+            </nav>
+          </div>
+          <div class="container-card">
+            <div class="card">
+              <div class="card__wind">Wind:</div>
+              <div class="card__img"><img src="./src/assets/img/frames/Frame.png" alt="cloud"></div>
+              <div class="card__wind--value">32</div>
+            </div>
+            <div class="card">
+              <div class="card__speed">Speed:</div>
+              <div class="card__img"><img src="./src/assets/img/frames/FrameTwo.png" alt="cloud"></div>
+              <div class="card__speed--value"></div>
+            </div>
+            <div class="card">
+              <div class="card__pressure">Pressure:</div>
+              <div class="card__img"><img src="./src/assets/img/frames/FrameThree.png" alt="cloud"></div>
+              <div class="card__pressure--value"></div>
+            </div>
+            <div class="card">
+              <div class="card__time">Time:</div>
+              <div class="card__img"><img src="./src/assets/img/frames/FrameFour.png" alt="cloud"></div>
+              <div class="card__time--value"></div>
+            </div>
+          </div>
+        </section>
+      </div>
+      <p class="info--right-bottom">Day 1 weather app</p>
+      <p class="info--left-bottom">2020</p>
+    </div>
+</body>
+
+</html>

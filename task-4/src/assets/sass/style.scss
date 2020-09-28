@@ -1,0 +1,202 @@
+@import "mixin";
+@import "animations";
+@import "components/form";
+
+*,
+*::after,
+*::before {
+ padding: 0;
+ margin: 0;
+ box-sizing: inherit;
+}
+
+html {
+ font-size: 62.5%;
+ background-color: #e5e5e5;
+}
+
+body {
+ font-family: "Roboto", sans-serif;
+ font-weight: 400;
+ color: #777;
+ line-height: 1;
+ padding: 3rem;
+ box-sizing: border-box;
+}
+
+.wrapper {
+ position: relative;
+ height: 95vh;
+ background-color: #d4c7bb;
+ font-size: 3.6rem;
+ font-weight: 500;
+ text-transform: uppercase;
+ @include flexibleBlock(center, center, row, nowrap);
+}
+
+.container {
+ @include flexibleBlock(initial, center, column, wrap)
+}
+
+.info {
+ &--right-top {
+  position: absolute;
+  top: 0;
+  right: 0;
+ }
+
+ &--right-bottom {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+ }
+
+ &--left-bottom {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+ }
+
+ &--left-top {
+  position: absolute;
+  left: 0;
+  top: 0;
+ }
+}
+
+.main {
+ background-color: #fff;
+ height: 66.7rem;
+ width: 37.5rem;
+ border: 1rem solid rgba(0, 0, 0, 0.4);
+ border-radius: 1.6rem;
+ padding: 0 1.35rem;
+}
+
+.btn:active,
+.btn:visited,
+.btn:focus {
+ border-color: #000;
+ outline: 0;
+ box-shadow: 0 0 0 0.2rem rgba(0, 0, 0, .25);
+}
+
+.form-control:active,
+.form-control:visited,
+.form-control:focus {
+ border-color: #000;
+ outline: 0;
+ box-shadow: 0 0 0 0.2rem rgba(0, 0, 0, .25);
+}
+
+.header__appearence {
+ position: relative;
+ display: block;
+}
+
+.logo {
+ position: absolute;
+ top: 0;
+ right: 0;
+}
+
+.elips {
+ position: absolute;
+ top: 0;
+ left: -45%;
+
+ &--main {
+  z-index: 5;
+  transform: translate(0%, -10%);
+ }
+
+ &--left {
+  z-index: 1;
+  transform: translate(-10%, 90%);
+  animation: moveInRight 5s ease-in-out;
+  animation-iteration-count: infinite;
+ }
+
+ &--center {
+  z-index: 5;
+  transform: translate(80%, 120%);
+  animation: moveInCenter 5s ease-in-out;
+  animation-iteration-count: infinite;
+ }
+
+ &--right {
+  z-index: 5;
+  transform: translate(85%, 30%);
+  animation: moveInLeft 5s ease-in-out;
+  animation-iteration-count: infinite;
+ }
+}
+
+.heading-primary {
+ text-align: center;
+ font-size: 1.7rem;
+ font-weight: 500;
+ margin-top: 1.5rem;
+ padding-bottom: 22rem;
+}
+
+.temperature {
+ text-align: left;
+ font-size: 9.6rem;
+ font-weight: 300;
+ padding-bottom: 1.5rem;
+}
+
+.temperature__descr {
+ text-transform: initial;
+ font-family: "Roboto", sans-serif;
+ font-weight: 400;
+ font-size: 1.5rem;
+ line-height: 1;
+ margin-bottom: 70px;
+
+ span {
+  font-weight: 700;
+ }
+}
+
+.container-nav {
+ @include flexibleBlock(space-between, initial, row, nowrap);
+}
+
+.heading-secondary {
+ font-family: "Roboto";
+ font-size: 1.4rem;
+ font-weight: 400;
+ line-height: 2.1rem;
+ letter-spacing: 0.4;
+ text-align: left;
+}
+
+nav {
+ width: 3rem;
+ @include flexibleBlock(space-between, center, row, nowrap);
+}
+
+.dot {
+ display: block;
+ width: 0.6rem;
+ height: 0.6rem;
+ border: 0.01rem solid #000;
+ border-radius: 50%;
+
+ &--active {
+  border: none;
+  background-color: #969696;
+ }
+}
+
+.container-card {
+ margin-top: 20px;
+ @include flexibleBlock(space-between, center, row, nowrap);
+ font-family: "Roboto";
+ font-size: 1.2rem;
+ font-weight: 400;
+ line-height: 1.8rem;
+ text-align: center;
+}

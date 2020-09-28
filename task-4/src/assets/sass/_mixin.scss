@@ -1,0 +1,15 @@
+@mixin flexibleBlock($axis-x, $axis-y, $axis-inversion, $wrap) {
+ display: flex;
+ justify-content: $axis-x;
+ align-items: $axis-y;
+ flex-direction: $axis-inversion;
+ flex-wrap: $wrap;
+}
+
+@mixin flexibleText($a, $b, $c, $d, $e) {
+ font-size: $a;
+ font-weight: $b;
+ line-height: $c;
+ color: $d;
+ text-transform: $e;
+}
